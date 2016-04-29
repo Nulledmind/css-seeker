@@ -2,7 +2,7 @@
 
 class Base
 {
-	function uncamelize($input) {
+	public function uncamelize($input) {
 	    preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
 	    $ret = $matches[0];
 	    foreach ($ret as &$match) {
@@ -45,11 +45,11 @@ class Base
 	public function __call($method, $args)
 	{
 		if('get' == substr($method, 0, 3)) {
-			$attr = uncamelize(substr($method, 3));
+			$attr = $this->uncamelize(substr($method, 3));
 			return $this->$attr;
 		}
 		else if('set' == substr($method, 0, 3)) {
-			$attr = uncamelize(substr($method, 3));
+			$attr = $this->uncamelize(substr($method, 3));
 			$val = $args[0];
 			if(substr($method, -2) == 'Id' && is_object($val)) {
 				$val = $val->id;
@@ -58,7 +58,7 @@ class Base
 			return $this;
 		}
 		else if('is' == substr($method, 0, 2)) {
-			$attr = uncamelize(substr($method, 2));
+			$attr = $this->uncamelize(substr($method, 2));
 			return $this->$attr;
 		}
 
