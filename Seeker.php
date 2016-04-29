@@ -115,7 +115,8 @@ $seek->load('<!DOCTYPE html>
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+        <p class="test">Hello world! This is HTML5 Boilerplate.</p>
+        <a href="#" class="test2">Test Me</a>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     </body>
