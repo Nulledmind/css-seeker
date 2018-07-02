@@ -9,7 +9,7 @@ class Seeker extends Base
     public $js;
     public $elements;
 
-    private $sz_elements = "a,abbr,address,area,article,aside,audio,b,base,bdi,bdo,blockquote,br,button,canvas,caption,cite,code,col,colgroup,command,datalist,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,i,iframe,img,input,ins,kbd,keygen,label,legend,li,link,map,mark,menu,meter,nav,noscript,object,ol,optgroup,option,output,p,param,pre,progress,q,rp,rt,ruby,s,samp,section,select,small,source,span,strong,sub,summary,sup,table,tbody,td,textarea,tfoot,th,thead,time,title,tr,track,u,ul,var,video,wbr";
+    private $elementsList = "a,abbr,address,area,article,aside,audio,b,base,bdi,bdo,blockquote,br,button,canvas,caption,cite,code,col,colgroup,command,datalist,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,i,iframe,img,input,ins,kbd,keygen,label,legend,li,link,map,mark,menu,meter,nav,noscript,object,ol,optgroup,option,output,p,param,pre,progress,q,rp,rt,ruby,s,samp,section,select,small,source,span,strong,sub,summary,sup,table,tbody,td,textarea,tfoot,th,thead,time,title,tr,track,u,ul,var,video,wbr";
 
     public function __construct()
     {
@@ -17,7 +17,7 @@ class Seeker extends Base
         $dom = new DOMDocument();
 
         $this->html = $dom;
-        $this->elements = explode(',', $this->sz_elements);
+        $this->elements = explode(',', $this->elementsList);
     }
 
     /**
@@ -44,15 +44,15 @@ class Seeker extends Base
      */
     public function seekPresentElements()
     {
-        $pt_elements = array();
+        $ptElements = array();
 
-        foreach ($this->elements as $sk_element) {
-            if ($this->html->getElementsByTagName($sk_element)->length > 0) {
-                $pt_elements[] = $sk_element;
+        foreach ($this->elements as $skElement) {
+            if ($this->html->getElementsByTagName($skElement)->length > 0) {
+                $ptElements[] = $skElement;
             }
         }
 
-        return $pt_elements;
+        return $ptElements;
     }
 
     /**
@@ -61,32 +61,32 @@ class Seeker extends Base
      * Based on what element source is specified, this will return an
      * array for each of the classes from the element source
      *
-     * @param string $element The element type to seek (Overrides $use_element_list if not null)
-     * @param bool $use_element_list Use the element list or not
+     * @param string $element The element type to seek (Overrides $useElementList if not null)
+     * @param bool $useElementList Use the element list or not
      * @return array
      */
-    public function seekClasses($element = null, $use_element_list = true)
+    public function seekClasses($element = null, $useElementList = true)
     {
         ////////////////////////////////////////////////
         // Logic Cases for what element source to use //
         ////////////////////////////////////////////////
         $classes = array();
 
-        if (!$element && $use_element_list) {
-            foreach ($this->elements as $element_name) {
-                foreach ($this->html->getElementsByTagName($element_name) as $use_element) {
-                    if ($use_element->getAttribute('class')) {
-                        $classes[$use_element->tagName] = explode(' ', $use_element->getAttribute('class'));
+        if (!$element && $useElementList) {
+            foreach ($this->elements as $elementName) {
+                foreach ($this->html->getElementsByTagName($elementName) as $useElement) {
+                    if ($useElement->getAttribute('class')) {
+                        $classes[$useElement->tagName] = explode(' ', $useElement->getAttribute('class'));
                     }
                 }
             }
         }
-        if (( $element && $use_element_list ) || ( $element && !$use_element_list )) {
-            foreach ($this->html->getElementsByTagName($use) as $use_element) {
-                $classes[$use_element->tagName] = explode(' ', $use_element->getAttribute('class'));
+        if (( $element && $useElementList ) || ( $element && !$useElementList )) {
+            foreach ($this->html->getElementsByTagName($use) as $useElement) {
+                $classes[$useElement->tagName] = explode(' ', $useElement->getAttribute('class'));
             }
         }
-        if (!$element && !$use_element_list) {
+        if (!$element && !$useElementList) {
             throw new Exception("No input source provided");
         }
 
